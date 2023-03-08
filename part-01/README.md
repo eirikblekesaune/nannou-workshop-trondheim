@@ -153,10 +153,8 @@ The new circle should be half the size and travel twice as fast.
 Choose another nice color for the second circle.
 Both circles should touch the edge of the screen, i.e. nothing of the circles should go outside the window.
 
-<details><summary>💡 Some functions for setting ellipse properties: </summary>
-These and much more can be found in the [cheat-sheet.md](./cheat-sheet.md#draw-circles-and-ellipses)
-</details>
-<br/>
+💡 You can find function for setting circle/ellipse properties, and much more, un the [cheat sheet](/cheat-sheet.md#draw-circles-and-ellipses).
+
 
 <details><summary> 🙈 Spoiler alert! A possible solution: </summary>
 
