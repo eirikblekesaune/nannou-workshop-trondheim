@@ -154,7 +154,7 @@ Choose another nice color for the second circle.
 Both circles should touch the edge of the screen, i.e. nothing of the circles should go outside the window.
 
 <details><summary>💡 Some functions for setting ellipse properties: </summary>
-These and much more can be found in the [cheat-sheet.md](cheat-sheet.md#Draw circles and ellipses)
+These and much more can be found in the [cheat-sheet.md](./cheat-sheet.md#draw-circles-and-ellipses)
 </details>
 <br/>
 
