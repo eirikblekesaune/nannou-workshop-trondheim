@@ -1,0 +1,16 @@
+[workspace]
+members = [ 
+  "basic-app",
+  "basic-sketch",
+  "part-01", 
+  "part-02", 
+  "part-03" 
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+authors = ["Eirik Blekesaune"]
+
+[workspace.dependencies]
+nannou = "0.18.1"
