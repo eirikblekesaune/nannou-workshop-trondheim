@@ -37,11 +37,20 @@ cargo run -p basic-app
 ### Exercises 1.1
 We are now going to develop the `basic-app` furter in some exerices.
 
-#### Exercise 1.1.A - Make the circle bounce up and down
-You can decide how high and low the ball will bounce.
-Tip: You can use the app time to move the circle.
+---
 
-<details><summary> 🙈 Spoiler alert! A possible solution: </sumamry>
+#### Exercise 1.1.A - Make the circle move up and down
+You can decide how high and low the ball will move.
+<details> <summary>💡 Tip: You can use the app time to move the circle. </summary>
+
+```rust
+app.time;
+```
+
+</details>
+<br/>
+
+<details><summary> 🙈 Spoiler alert! A possible solution: </summary>
 
 ```rust
     draw.ellipse()
@@ -51,13 +60,131 @@ Tip: You can use the app time to move the circle.
 
 </details>
 
-#### Exercise 1.1.B - Change the circle bounce 
-Make the circle bounce all the way from the top of the screen to the bottom.
-Tip: You can use the data from the app window to get the screen height.
-Tip: The `map_range()` function in `nannou` makes it really easy to convert from one number range to another:
+---
+
+#### Exercise 1.1.B - Change the circle movement
+Make the circle move all the way from the top of the screen to the bottom.
+<details> <summary>💡 Tip: You can use the data from the <code>App</code> instance to get the screen height. </summary>
+
+```rust
+let r = app.window_rect();
+r.w(); //total width
+r.h(); //total height
+r.top(); //top of the window
+r.botton(); //bottom of the window
+r.right(); //right edge of the window
+r.left(); //left edge of the window
+```
+
+</details>
+<br/>
+
+<details><summary> 🙈 Spoiler alert! A possible solution: </summary>
+
+```rust
+    //Get the window rect
+    let r = app.window_rect();
+    //The output range from the `sin()` function is -1.0 - 1.0
+    //Since the window coordinates for nannou has x:0.0,y:0.0 as the center of the window,
+    // converting the range -1.0 to 1.0 to the full height of the window is as simple as
+    // multiplying with half the window height.
+    let y_pos = app.time.sin() * r.h() * 0.5;
+    //Use the draw instance to draw an ellipse.
+    draw.ellipse(i)
+        .y(y_pos)
+        .color(MAGENTA);
+```
+
+</details>
+
+---
+
+#### Exercise 1.1.C - A smaller and more precisely positioned movement
+Convert the movement range to having the top at _2:3_ of the window height, and the bottom at _1:4_ of the screen height.
+
+<details><summary>💡 There is a <code>nannou</code> function that makes it really easy to convert from one number range to another: </summary>
+
 ```rust
 let a = 0.5;
 let b = map_range(a, 0.0, 1.0, 10.0, 20.0); // => 15.0
 ```
+
+</details>
+<br/>
+
+<details><summary> 🙈 Spoiler alert! A possible solution: </summary>
+
+```rust
+    //Use the top and bottom values from the window rect to make it simpler to convert value
+    // ranges.
+    let y_top = map_range(2.0/3.0, 0.0, 1.0, r.bottom(), r.top());
+    let y_bottom = map_range(1.0/4.0, 0.0, 1.0, r.bottom(), r.top());
+    let y_pos = map_range(app.time.sin(), -1.0, 1.0, y_bottom, y_top);
+```
+
+</details>
+<br/>
+
+--- 
+
+#### Exercise 1.1.D - Full circle rotation
+Change the movement of the circle to do move in a circle around the center.
+The circle should go to the edges of the window both on the left/right edges and the top/bottom edges.
+
+
+<details><summary>💡 To travel in a circular motion we can combine <code>sin()</code> with its co(s)mpanion... </summary>
+
+```rust
+//We can combine `sin` and `cos` to create movement in circles.
+draw.ellipse()
+    .y(app.time.sin() * 200.0)
+    .x(app.time.cos() * 200.0)
+    .color(MAGENTA);
+```
+
+</details>
+<br/>
+
+---
+
+#### Exercise 1.1.E - Double circle rotation
+Add another circle to the drawings.
+The new circle should be half the size and travel twice as fast.
+Choose another nice color for the second circle.
+Both circles should touch the edge of the screen, i.e. nothing of the circles should go outside the window.
+
+<details><summary>💡 Some functions for setting ellipse properties: </summary>
+These and much more can be found in the [cheat-sheet.md](cheat-sheet.md#Draw circles and ellipses)
+</details>
+<br/>
+
+<details><summary> 🙈 Spoiler alert! A possible solution: </summary>
+
+```rust
+    let circle_radius_a = 50.0;
+    let pos_a = vec2(
+        map_range(app.time.sin(), -1.0, 1.0, r.left() + circle_radius_a,   r.right() - circle_radius_a),
+        map_range(app.time.cos(), -1.0, 1.0, r.bottom() + circle_radius_a, r.top() - circle_radius_a),
+        );
+
+    let circle_radius_b = circle_radius_a / 2.0;
+    let pos_b = vec2(
+        map_range((2.0 * app.time).sin(), -1.0, 1.0, r.left() + circle_radius_b,   r.right() - circle_radius_b ),
+        map_range((2.0 * app.time).cos(), -1.0, 1.0, r.bottom() + circle_radius_b, r.top() - circle_radius_b ),
+        );
+
+    //Use the draw instance to draw an ellipse.
+    draw.ellipse()
+        .xy(pos_a)
+        .radius(circle_radius_a)
+        .color(MAGENTA);
+    draw.ellipse()
+        .xy(pos_b)
+        .radius(circle_radius_b)
+        .color(ORANGE);
+```
+
+</details>
+<br/>
 
 

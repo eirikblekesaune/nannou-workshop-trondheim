@@ -65,9 +65,8 @@ fn view(app: &App, _model: &Model, frame: Frame){
 
     //Use the draw instance to draw an ellipse.
     draw.ellipse()
-        .y(app.time.sin() * 200.0 )
         .color(MAGENTA);
-    
+
     //Use the draw instance to set its content to a reference to the Frame, i.e. window.
     draw.to_frame(app, &frame).unwrap();
 }
