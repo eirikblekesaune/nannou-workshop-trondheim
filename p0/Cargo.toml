@@ -1,5 +1,5 @@
 [package]
-name = "part-02"
+name = "p0"
 version = "0.1.0"
 edition.workspace = true
 
@@ -7,4 +7,5 @@ edition.workspace = true
 
 [dependencies]
 nannou.workspace = true
+
 

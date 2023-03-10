@@ -1,10 +1,9 @@
 [workspace]
 members = [ 
-  "basic-app",
-  "basic-sketch",
-  "part-01", 
-  "part-02", 
-  "part-03" 
+  "p0",
+  "p1", 
+  "p2", 
+  "p3" 
 ]
 resolver = "2"
 

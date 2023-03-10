@@ -63,9 +63,19 @@ fn view(app: &App, _model: &Model, frame: Frame){
     //Use the draw instances' background and set the color.
     draw.background().color(CYAN);
 
-    //Use the draw instance to draw an ellipse.
-    draw.ellipse()
-        .color(MAGENTA);
+
+    let num_items = 5;
+    let rotation_radius = 120.0;
+    for i in 0..num_items {
+        let angle = i as f32 * (1.0/num_items as f32) * TAU + (app.time * 1.0);
+        draw.ellipse()
+            .x_y(
+                rotation_radius * angle.cos(),
+                rotation_radius * angle.sin(),
+                )
+            .radius(20.0)
+            .color(GREEN);
+    }
 
     //Use the draw instance to set its content to a reference to the Frame, i.e. window.
     draw.to_frame(app, &frame).unwrap();

@@ -1,5 +1,5 @@
 [package]
-name = "part-03"
+name = "p1"
 version = "0.1.0"
 edition.workspace = true
 
