@@ -202,7 +202,7 @@ Well, the same type of function can be used for the `draw` instance as well:
 draw.x_y(-100.0, 0.0);
 ```
 
-More info on this in the [cheat sheet](https://github.com/eirikblekesaune/nannou-workshop-trondheim/blob/main/cheat-sheet.md#move-scale-and-rotate-the-position-of-the-drawing-context)
+More info on this in the [cheat sheet](./cheat-sheet.md#move-scale-and-rotate-the-position-of-the-drawing-context)
 
 </details>
 <br/>
