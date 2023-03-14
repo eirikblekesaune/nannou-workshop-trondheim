@@ -1,11 +1,11 @@
-# Part 0 - Basic `nannou` app
+# Part 0 - Basic Nannou app
 
-In this first part of the workshop we will look at how to set up a basic `nannou` app, where we will draw simple geometric shapes.
+In this first part of the workshop we will look at how to set up a basic Nannou app, where we will draw simple geometric shapes.
 We will draw the shapes in different colors, move them around on the screen, and create composite graphic elements.
 
 ## Learning goals
 After this part you will have a basic understanding of the following:
-* Minimal setup for `nannou` app.
+* Minimal setup for Nannou app.
 * Draw a colored background
 * Draw ellipses and triangles.
 * Specify and control the positions and colors for the shapes.
@@ -13,19 +13,19 @@ After this part you will have a basic understanding of the following:
 * Specify relative positions for groups of shapes.
 * Animate parameters for the shapes relative to time.
 
-## Minimal `nannou` setup
-There are two types of `nannou` setups: _sketches_ and _apps_.
+## Minimal Nannou setup
+There are two types of Nannou setups: _sketches_ and _apps_.
 
 * _sketches_ is the simplest to set up and are mostly used for quick or simple experiements, where you don't need much state management, interaction with MIDI, audio etc.
 * _apps_ is what you would use for a more full fledged application. This is the type of setup we will use for this workshop.
 
-If you want more explanations of the differences between _apps_ and _sketches_ you can read the `nannou` guide chapter [Basics - Sketch vs App](https://guide.nannou.cc/tutorials/basics/sketch-vs-app.html).
+If you want more explanations of the differences between _apps_ and _sketches_ you can read the Nannou guide chapter [Basics - Sketch vs App](https://guide.nannou.cc/tutorials/basics/sketch-vs-app.html).
 The nannou repo has templates for [_sketches_](https://github.com/nannou-org/nannou/blob/master/examples/templates/template_sketch.rs) and [_apps_](https://github.com/nannou-org/nannou/blob/master/examples/templates/template_app.rs), if you need a barebones setup to start with when you make your own project.
 
 As mentioned above, we will use _apps_ for this workshop.
-We will also base our explorations on the code in this repo, so no need to set up your own `nannou` project for the work that we will do today.
-If you want to set up your own `nannou` project later, the `nannou`-guide has a [chapter](https://guide.nannou.cc/getting_started/create_a_project.html) about it.
-If you for some reason find yourself yearning more to explore `nannou` on your own during the workshop, I can suggest reading and running [examples](https://guide.nannou.cc/getting_started/running_examples.html) in the `GitHub nannou` [repo](https://github.com/nannou-org/nannou).
+We will also base our explorations on the code in this repo, so no need to set up your own Nannou project for the work that we will do today.
+If you want to set up your own Nannou project later, the Nannou-guide has a [chapter](https://guide.nannou.cc/getting_started/create_a_project.html) about it.
+If you for some reason find yourself yearning more to explore Nannou on your own during the workshop, I can suggest reading and running [examples](https://guide.nannou.cc/getting_started/running_examples.html) in the `GitHub nannou` [repo](https://github.com/nannou-org/nannou).
 
 Our starting point is a basic app in the [p0-basic-app/src/main.rs] file, where I have added some (admittedly verbose) comments about the structure and the syntax, to help you understand how those element connect together.
 We will quickly go through the choreography of the program, so that you get an idea of how a basic app runs from start to finish.

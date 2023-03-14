@@ -1,10 +1,10 @@
-# Rust and `nannou` cheat sheet
-This document gathers snippets of code that illustrates many of the more common things you may want to do in Rust or `nannou`.
+# Rust and Nannou cheat sheet
+This document gathers snippets of code that illustrates many of the more common things you may want to do in Rust or Nannou.
 
 Feel free to submit additional code snippet and cheats to this document. :smile:
 
 
-## `nannou`
+## Nannou
 ### Get the running time or elapsed frames
 `app.time` for the app time.
 
