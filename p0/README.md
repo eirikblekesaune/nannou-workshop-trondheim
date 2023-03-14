@@ -186,6 +186,7 @@ Both circles should touch the edge of the screen, i.e. nothing of the circles sh
 </details>
 <br/>
 
+---
 #### Exercise 0.F - Planet and a moon
 We have two circles.
 In this exercise we will change the circles `a` and `b` like this:
@@ -198,7 +199,7 @@ We have already seen that we can change the position of an ellipse using the <co
 Well, the same type of function can be used for the `draw` instance as well:
 
 ```rust
-
+draw.x_y(-100.0, 0.0);
 ```
 
 </details>

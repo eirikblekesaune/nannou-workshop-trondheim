@@ -9,3 +9,10 @@ edition.workspace = true
 nannou.workspace = true
 
 
+[[bin]]
+name = "p1_a"
+path = "src/suggestion/p1_a.rs"
+
+[[bin]]
+name = "p1_x"
+path = "src/suggestion/p1_x.rs"

@@ -67,7 +67,7 @@ fn view(app: &App, _model: &Model, frame: Frame){
     let num_items = 5;
     let rotation_radius = 120.0;
     for i in 0..num_items {
-        let angle = i as f32 * (1.0/num_items as f32) * TAU + (app.time * 1.0);
+        let angle = i as f32 * (num_items as f32).recip() * TAU + (app.time * 1.0);
         draw.ellipse()
             .x_y(
                 rotation_radius * angle.cos(),

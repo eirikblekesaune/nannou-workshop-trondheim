@@ -4,7 +4,7 @@ This document gathers snippets of code that illustrates many of the more common 
 Feel free to submit additional code snippet and cheats to this document. :smile:
 
 
-## Application
+## `nannou`
 ### Get the running time or elapsed frames
 `app.time` for the app time.
 
@@ -35,6 +35,16 @@ fn model(app: &App) -> Model {
 }
 ```
 
+### Move, scale, and rotate the position of the drawing context
+`let draw = draw.x_y(100.0, -40.0);`
+The next thing you draw will now be at (x: 100, y:-40) pixels.
+
+`let draw = draw.scale(2.0)`
+Everything you draw from now will be twice as large.
+
+`let draw = draw.rotate(90.0.deg_to_rad());`
+
+
 ## Shapes
 ### Draw circles and ellipses
 ```rust
@@ -47,13 +57,48 @@ draw.ellipse()
     .stroke_weight(5.0);// thickness of stroke line;
 ```
 
+### Draw gradient colored polygon
+Use a Vector of (Vec2, Rgb) tuples as elements.
+The `points_colored()` function interpolates the colors.
+```rust
+let a = 100.0;
+let points = vec![
+  (pt2(-a, a), rgb(1.0, 0.0, 0.0)),
+  (pt2(a, a), rgb(0.0, 1.0, 0.0)),
+  (pt2(a, -a), rgb(1.0, 1.0, 0.0)),
+  (pt2(-a, -a), rgb(1.0, 0.0, 1.0)),
+];
+draw.polygon().points_colored(points);
+```
+
+### Draw a line
+The two endpoint of the line is set using the `.points()` function:
+```rust
+let a = pt2(/*...*/);
+let b = pt2(/*...*/);
+draw.polyline()
+    .weight(1.0)
+    .points(a, b)
+    .color(rgba(1.0, 1.0, 1.0, 0.8));
+```
+
+### Draw multiline
+Make a Vector of points and draw using the `.points()` function:
+```rust
+let = (0..20).map(|i| pt2(/*... point coords here..*/));
+draw.polyline()
+    .weight(1.0)
+    .points(points)
+    .color(rgba(1.0, 1.0, 1.0, 0.8));
+```
+
 ## Geometry
 ### Draw points evenly around in a circle
 ```rust
 let num_items = 5;
 let rotation_radius = 120.0;
 for i in 0..num_items {
-    let angle = i as f32 * (1.0/num_items as f32) * TAU;
+    let angle = i as f32 * (num_items as f32).recip() * TAU + (app.time * 1.0);
     draw.ellipse()
         .x_y(
             rotation_radius * angle.cos(),
@@ -63,10 +108,6 @@ for i in 0..num_items {
         .color(GREEN);
 }
 ```
-
-### Move the position of the drawing context
-`let draw = draw.x_y(100.0, -40.0);`
-The next thing you draw will now be at (x: 100, y:-40) pixels.
 
 ### Create 3D vector from 2D vector
 Some functions specifically demand a `Vec3`.
@@ -79,6 +120,16 @@ let b = a.extend(0.0); //extends into 3 dimensions with 0.0 as the z value
 let draw = draw.translate(b); 
 ```
 
+## Colors
+### Blend color modes
+A draw context can be set to a given color blending mode using `.color_blend()`, using one of the following constants as argument:
+* `BLEND_NORMAL`
+* `BLEND_ADD`
+* `BLEND_SUBTRACT`
+* `BLEND_REVERSE_SUBTRACT`
+* `BLEND_DARKEST`
+* `BLEND_LIGHTEST`
+
 ## Math
 ### Generate a random value
 `random()` produces decimal numbers in the range of 0.0 - 1.0
@@ -86,6 +137,8 @@ Exists in different versions depending on value type, so must be specified using
 _turbofish_ syntax:
 `random::<f32>()` for 32-bit floats
 `random::<f64>()` for 64-bit floats
+
+`random_range()` generates a number within a specified range.
 
 ### Convert number ranges
 `map_range(<in>, <inMin>, <inMax>, <outMin>, <outMax>)`
@@ -97,6 +150,11 @@ _turbofish_ syntax:
 `partial_max` or `partial_min`
 
 ## Rust
+
+### Define a custom type alias
+```rust
+type Line = (Point2, Point2);
+```
 
 ### Define a `struct` with a constructor
 ```rust
