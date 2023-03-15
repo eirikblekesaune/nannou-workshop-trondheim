@@ -144,7 +144,7 @@ Running `cargo run --bin p2_d` shows our veiled arms swaying
 Colors in Nannou is not only your regular RGB Hex codes.
 The color API that Nannou uses is based on the `palette` crate.
 
-The [Color section](./cheat-sheet.md#colors) has more info about colors in Nannou.
+The [Color section](/cheat-sheet.md#colors) has more info about colors in Nannou.
 
 We will use the color `Lch` for our sketch, since it gives a consistent luminance, as it a polar color space, meaning we can change the hue, chroma, luminance, instead of rgb.
 This gives us a more intutive control of the colors.
