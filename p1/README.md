@@ -4,7 +4,7 @@ In this part we will start by looking at more more Rust-specific topics, before 
 When working with this part we will start seeing some of the aspects to the Rust programming language that makes it stand out from many other programming languages used in the industry today.
 In the beginning of the exercises we won't be seeing any change with graphics, but the code...my oh my... that's gonna get some sweet improvements.
 
-If you already are comfortable with Rust concepts like `struct`, `impl`, defining your own functions etc.  please feel free to jump ahead to the [next part](./p2/README.md).
+If you already are comfortable with Rust concepts like `struct`, `impl`, defining your own functions etc.  please feel free to jump ahead to the [next part](/p2/README.md).
 
 ## Learning goals
 When we are done with this part of the workshop, you will have a basic understanding of these topics:
@@ -74,7 +74,7 @@ Oooohhhh , that's a lot on our plate😅.
 Best to tackle this in smaller chunks, step by step.
 We'll go through this one together, but if you are eager to just jump into it without any support wheels or anything, just go ahead and do that.
 
-You can compare your own solution with the suggestion in [`p1/src/suggestion/p1_e.rs`](./p1/suggestion/p1_e.rs).
+You can compare your own solution with the suggestion in [`p1/src/suggestion/p1_e.rs`](/p1/suggestion/p1_e.rs).
 To run the solution suggestion you can execute this command:
 ```rust
 cargo run --bin p1_a
