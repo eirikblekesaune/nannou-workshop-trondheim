@@ -468,5 +468,5 @@ That concludes the first part of this workshop.
 
 Great job!
 
-Let's take a small break and then continue on to [the second part](./p1/README.md).
+Let's take a small break and then continue on to [the second part](/p1/README.md).
 
