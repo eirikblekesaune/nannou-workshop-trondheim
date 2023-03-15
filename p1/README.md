@@ -74,7 +74,7 @@ Oooohhhh , that's a lot on our plate😅.
 Best to tackle this in smaller chunks, step by step.
 We'll go through this one together, but if you are eager to just jump into it without any support wheels or anything, just go ahead and do that.
 
-You can compare your own solution with the suggestion in [`p1/src/suggestion/p1_e.rs`](/p1/suggestion/p1_e.rs).
+You can compare your own solution with the suggestion in [`p1/src/suggestion/p1_e.rs`](/p1/src/suggestion/p1_e.rs).
 To run the solution suggestion you can execute this command:
 ```rust
 cargo run --bin p1_a
