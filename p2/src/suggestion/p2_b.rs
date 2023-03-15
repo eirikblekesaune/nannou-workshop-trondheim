@@ -53,6 +53,15 @@ fn view(app: &App, _model: &Model, frame: Frame) {
         .weight(1.0)
         .events(path.iter()); //Get an iterator for the path to add the points to the path drawing
 
+    //Add another line with the path, just with the draw context scaled with a negative value
+    // effetively mirroring it
+    draw.scale_x(-1.0)
+        .path()
+        .stroke()
+        .color(WHITE)
+        .weight(1.0)
+        .events(path.iter());
+
     draw.to_frame(app, &frame).unwrap();
 
 }

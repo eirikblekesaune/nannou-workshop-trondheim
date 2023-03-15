@@ -8,3 +8,21 @@ edition.workspace = true
 [dependencies]
 nannou.workspace = true
 
+[[bin]]
+name = "p2_b"
+path = "src/suggestion/p2_b.rs"
+[[bin]]
+name = "p2_c"
+path = "src/suggestion/p2_c.rs"
+[[bin]]
+name = "p2_d"
+path = "src/suggestion/p2_d.rs"
+[[bin]]
+name = "p2_e"
+path = "src/suggestion/p2_e.rs"
+[[bin]]
+name = "p2_f"
+path = "src/suggestion/p2_f.rs"
+[[bin]]
+name = "p2_x"
+path = "src/suggestion/p2_x.rs"

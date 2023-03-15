@@ -4,6 +4,8 @@ In this part we will start by looking at more more Rust-specific topics, before 
 When working with this part we will start seeing some of the aspects to the Rust programming language that makes it stand out from many other programming languages used in the industry today.
 In the beginning of the exercises we won't be seeing any change with graphics, but the code...my oh my... that's gonna get some sweet improvements.
 
+If you already are comfortable with Rust concepts like `struct`, `impl`, defining your own functions etc.  please feel free to jump ahead to the [next part](./p2/README.md).
+
 ## Learning goals
 When we are done with this part of the workshop, you will have a basic understanding of these topics:
 * Structure data using using `struct`
@@ -11,9 +13,6 @@ When we are done with this part of the workshop, you will have a basic understan
 * Mutability of variables and function arguments.
 * Implement your own functions, `fn`.
 * Add behaviour to the circles by implementing function on a `struct` using `impl`.
-* Draw other shapes: rectangles, lines, polygons, polylines.
-* Describe colors in color spaces `rgb`, `hsv`, and `CIE L*a*b*`
-* Ownership of data, and getting our acquaintance with our favorite beast: _The Borrow Checker_
 
 ## Programming, learning, and thinking in Rust
 As we'll see soon, the strictness of the Rust compiler may seem daunting at first.
@@ -50,18 +49,20 @@ You can have these points in the back of your mind when you program Rust:
 
 ## Exercises Part 1
 For the exercises in this part we will use the file `p1/src/main.rs` as our starting point.
+This is based on the suggestion from _Exercise 0.F_.
+
 To run the program we are working on you can run:
+
 ```rust
 cargo run -p p1
 ```
 
-Looking at the result we got in the previous part, we see that we can structure our code better.
+Looking at the code we see that we can structure our code better.
 When you start getting variables that contain numbers or single letters, e.g. `circle_radius_a` and `circle_radius_b`, it is often an indicator that you can start to gather data into separate data entities.
 This would later make it easier for us to create and modify arbitrary numbers of circles.
 Which of course is always a [good thing](https://xkcd.com/974/).
 In Rust we can use `struct` to consolidate data.
 
-## Exercise 1-A - Structure it
 Based on the code in `p1/src/main.rs` we are going to do the following:
 * Define a `struct` called `Circle` that has data members for its `position`, `speed`, `size`, and `color`.
 * Initialize two instances of this struct at the startup of our program.
@@ -73,14 +74,13 @@ Oooohhhh , that's a lot on our plate😅.
 Best to tackle this in smaller chunks, step by step.
 We'll go through this one together, but if you are eager to just jump into it without any support wheels or anything, just go ahead and do that.
 
-You can compare your own solution with the suggestion in [`p1/src/suggestion/p1_a.rs`](./p1/suggestion/p1_a.rs).
-
+You can compare your own solution with the suggestion in [`p1/src/suggestion/p1_e.rs`](./p1/suggestion/p1_e.rs).
 To run the solution suggestion you can execute this command:
 ```rust
 cargo run --bin p1_a
 ```
 
-### Define a `Circle` struct
+### Exercise 1.A - Structure the things
 
 <details><summary>💡 Define a struct with data member names and appropriate data types: </summary>
 
@@ -119,11 +119,27 @@ struct Widget {
 </details>
 <br/>
 
-### Add the circles to our <code>Model</code>
-<details><summary>💡 Change our <code>Model</code> </summary>
+
+<details><summary>🙈  Suggestion: </summary>
+
+```rust
+struct Circle {
+    position: Vec2, // this type stores 2 dimensional positions
+    speed: f32, // 32-bit float
+    radius: f32,
+    color: Rgb<u8>, //A color type with 3 8 bit values. One for each color Red, Green and Blue
+}
+```
+
+</details>
+<br/>
+
+### Exercise 1.B - Add the circles to our <code>Model</code> definition
+<details><summary>🙈 Suggestion: Change our <code>Model</code> </summary>
 We have to change our <code>Model</code> which is currently empty, by adding our circles to it.
 
 ```rust
+//Use the Model struct to hold the data that we need during the duration of our program
 struct Model {
     circle_a: Circle,
     circle_b: Circle,
@@ -133,30 +149,50 @@ struct Model {
 </details>
 <br/>
 
-### Initialize our <code>Model</code>
+### Exercise 1.C - Initialize our <code>Model</code>
 <details><summary>💡 Initialize our <code>Model</code> </summary>
+
 Initializing the state takes place in our <code>model</code> function.
 
+</details>
+<br/>
+
+<details><summary>🙈 Suggestion: </summary>
+
 ```rust
-let r = app.window_rect();
-let radius_a = 50.0;
-let a = Circle {
-    position: vec2(r.right() - radius_a, 0.0),
-    speed: 1.0,
-    radius: radius_a,
-    color: MAGENTA,
-};
-//[...some more code here]
-Model {
-    circle_a: a,
-    circle_b: b,
+//We use this function to initialize our program's state, i.e. the properties
+// for our circles.
+//This function is called only once, from the `main` function.
+fn model(app: &App) -> Model {
+    let r = app.window_rect();
+    let radius_a = 50.0;
+    let a = Circle {
+        position: vec2(r.right() - radius_a, 0.0),
+        speed: 1.0,
+        radius: radius_a,
+        color: MAGENTA,
+    };
+    let b = Circle {
+        position: vec2(r.right() - (a.radius / 2.0), 0.0),
+        speed: a.speed * 2.0,
+        radius: a.radius / 2.0,
+        color: ORANGE,
+    };
+    //Notice that the last line has no semicolon.
+    //This is how we describe what is returned from our function.
+    //Looking at the function signatur above, the return type is notated
+    // with `-> Model`, so this looks aaaall right.
+    Model {
+        circle_a: a,
+        circle_b: b,
+    }
 }
 ```
 
 </details>
 <br/>
 
-### Update our `Model` each frame
+### Exercise 1.D - Update our `Model` each frame
 <details><summary>💡 To update our model: </summary>
 We use the <code>update</code> function to update the data in our model.
 Notice the function signature:
@@ -182,7 +218,47 @@ Try to write it without the `&mut` part and see what happens.. I dare you.
 </details>
 <br/>
 
-### Drawing our updated circles
+<details><summary>🙈 Suggestion: </summary>
+
+```rust
+//Notice we removed the leading underscore to the `app` and `model`
+// parameter. Stricly speaking we aren't required to do this; we could just
+// use `_app` inside our function, but the reason for the the leading underscore
+// is to tell the Rust compiler that we intend not to use the parameter in our
+// code. When we don't prepend an underscore to a parameter name, the compiler
+// will warn us, as this may be a cause for bugs.
+fn update(app: &App, model: &mut Model, _update: Update) {
+    let r = app.window_rect();
+    let time = app.time;
+
+    //The `&mut` syntax means that we assign a mutable reference to the 
+    // `circle` variable. This means that the circle variable does not own
+    // the model.circle_a instance, but rather holds a reference to it. And 
+    // since the reference is mutable, it means that we can change the value 
+    // of its data members.
+    let circle = &mut model.circle_a;
+    let ts = time * circle.speed;
+    let radius = circle.radius;
+    circle.position = vec2(
+        map_range( ts.sin(), -1.0, 1.0, r.left() + radius, r.right() - radius ),
+        map_range( ts.cos(), -1.0, 1.0, r.bottom() + radius, r.top() - radius ),
+        );
+
+    let circle = &mut model.circle_b;
+    let ts = time * circle.speed;
+    let radius = circle.radius;
+    circle.position = vec2(
+        map_range( ts.sin(), -1.0, 1.0, r.left() + radius, r.right() - radius ),
+        map_range( ts.cos(), -1.0, 1.0, r.bottom() + radius, r.top() - radius ),
+        );
+}
+```
+
+</details>
+<br/>
+
+
+### Exercise 1.E - Drawing our updated circles
 <details><summary>💡 Draw our circles: </summary>
 We use thew <code>view</code> function only for drawing thing to the window.
 Notice the function signature:
@@ -205,6 +281,42 @@ draw.ellipse()
 </details>
 <br/>
 
+<details><summary>🙈 Suggestion: </summary>
+
+```rust
+//Since we have done all the modification of state in the update function,
+// we can only draw the results here. This design choice separates the view
+// from the model.
+fn view(app: &App, model: &Model, frame: Frame){
+    let draw = app.draw();
+
+    draw.background().color(CYAN);
+
+    //In the update function we accessed `circle_a` using a mutable reference.
+    //In this function we assign a read-only reference to `circle_a`, meaning
+    // that we can't change its value. Since the parameter, `model &Model`, is 
+    // not declared mutable, we wouldn't be able to assign it as a mutable 
+    // reference even if we wanted to.
+    let circle = &model.circle_a;
+    draw.ellipse()
+        .xy(circle.position)
+        .radius(circle.radius)
+        .color(circle.color);
+
+    let circle = &model.circle_b;
+    draw.ellipse()
+        .xy(circle.position)
+        .radius(circle.radius)
+        .color(circle.color);
+
+    draw.to_frame(app, &frame).unwrap();
+}
+```
+
+</details>
+<br/>
+
+---
 
 Alright! We did it! We are happy programmers.
 We have:
@@ -212,41 +324,106 @@ We have:
 * 🎉 Initialized our data in the `model` function.
 * 🎉 Updated our data in the `update` function.
 * 🎉 Learned how to get a mutable reference to a struct's data member.
-* 🎉 
 
 
-* CHALLENGE: Mutability of struct members
-  * Try first to move allocate
-  * Then give it a mut declaration
-  * Then assign it as a mutable reference.
-* CHALLENGE: Code not DRY, repeating code.
-* CHALLENGE: Does not scale well.
-
-## Exercise 1-B - Calculate the speed
+### Exercise 1-F - Calculate the speed using a function
 Define your own function that calculates the doubled value for a decimal number, and use this function to calculate the speed of circle `b`.
 Circle `b` will move twice as fast as circle `a`.
+I suggest using the function name `doubled` for this, and make it accept an `f32` parameter and return an `f32` value which is double in value of the input argument.
 
-## Exercise 1-C - Give a circle some speed control
-We want to control the speed of our circles using a function for each circle.
+<details><summary>🙈 Suggestion: </summary>
+
+```rust 
+// Our doubling function which doubles the f32 value you give it
+fn double_it(x: f32) -> f32 {
+    x * 2.0
+}
+//[...snip...]
+  fn model(app: &App) -> Model {
+      //[...snip...]
+      let b = Circle {
+          position: vec2(r.right() - (a.radius / 2.0), 0.0),
+          speed: double_it(a.speed), // replace this with a call to our new favorite function
+          radius: a.radius / 2.0,
+          color: ORANGE,
+      };
+      //[...snip...]
+  }
+```
+
+</details>
+<br/>
+
+🎉 You made your own custom function!
+
+### Exercise 1-G - Give circles shrink and grow control
+We want to control the radius of our circles using a function for each circle.
 The syntax for our circle control should look like this:
-```rust
-circle_a.set_speed(1.0);
-```
-We still want the speed of circle `b` to be twice that of circle `a`.
 
-## Exercise 1-D: Construct those circles
-We are not too fond of the syntax for initializing the starting positions for our circles.
-Right now the circle structs are initialized inline.
-It would be soo much cooler if we could make a function that creates and initializes our circles, so that we simply could do:
 ```rust
-let a = Circle::new()
+circle_a.grow(1.0); // increase radius by 1.0
+circle_a.shrink(1.0); // decrease radius by 1.0
 ```
 
-## Make a draw function for the item
+<details><summary>🙈 Suggestion: </summary>
 
-## Make it a rotating circle using traits
-Rotate a vector
-Define and implement a trait
+```rust 
+//The impl keyword is used to implement functions of structs
+impl Circle {
+    //The first arg is &mut, which tells us that we intend to modify
+    // something in our struct by calling this method
+    fn grow(&mut self, by: f32) {
+        self.radius += by;
+    }
+    fn shrink(&mut self, by: f32) {
+        self.grow(-by); // call itself with negated value, more DRY
+    }
+}
+```
+
+And let's add the shrink and grow method calls to the <code>update</code> function so that the circle slowly change size over time.
+
+```rust
+    let circle = &mut model.circle_a;
+    let ts = time * circle.speed;
+    circle.grow(0.02); // grow every so little each frame
+    let radius = circle.radius;
+    circle.position = vec2(
+        map_range( ts.sin(), -1.0, 1.0, r.left() + radius, r.right() - radius ),
+        map_range( ts.cos(), -1.0, 1.0, r.bottom() + radius, r.top() - radius ),
+        );
+
+    let circle = &mut model.circle_b;
+    let ts = time * circle.speed;
+    circle.shrink(0.01); // shrink ever so ever so litle each frame
+    let radius = circle.radius;
+    circle.position = vec2(
+        map_range( ts.sin(), -1.0, 1.0, r.left() + radius, r.right() - radius ),
+        map_range( ts.cos(), -1.0, 1.0, r.bottom() + radius, r.top() - radius ),
+        );
+```
+
+</details>
+<br/>
+🎉 You made your own custom function that mutates the state of your circles.
+
+### Exercise 1-H: Grow and shrink cycle
+We want the circles to grow and shrink between half the initial size and double the initial size.
+
+### Exercise 1-I - Make a draw function for the item
+We want to draw our circles using their own `draw()` function so in the view function we just do:
+
+```rust
+model.circle_a.draw(/*some args here*/);
+model.circle_b.draw(/*some args here*/);
+```
+
+### Exercise 1-J - Gather all circles in a `Vec` and update and draw them in loops
+If we want to add and remove circle dynamically in our program it is quite cumbersome to have variable naming in the format `circle_a`, `circle_b` etc.
+We rather want to put all circles in a `Vec` of `Circle`.
+Then both the update and the view function will have to change significantly.
+
+
 
 
 

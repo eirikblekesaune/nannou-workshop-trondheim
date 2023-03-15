@@ -10,9 +10,13 @@ nannou.workspace = true
 
 
 [[bin]]
-name = "p1_a"
-path = "src/suggestion/p1_a.rs"
+name = "p1_e"
+path = "src/suggestion/p1_e.rs"
 
 [[bin]]
-name = "p1_x"
-path = "src/suggestion/p1_x.rs"
+name = "p1_f"
+path = "src/suggestion/p1_f.rs"
+
+[[bin]]
+name = "p1_g"
+path = "src/suggestion/p1_g.rs"

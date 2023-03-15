@@ -121,6 +121,109 @@ let draw = draw.translate(b);
 ```
 
 ## Colors
+Nannou base their color API on the [palette](https://crates.io/crates/palette) crate, but adds a layer of specifying whether we use 8-bit or 32-bit floats for the RGB values.
+You can set a 8-bit color in the RGB color space with `rgb8(0,0,0)`, and 32-bit floats with: `rgb(0.0,0.0,0.0)`.
+
+If you want to set the transparency you can add an `a` to the function names: `rgba8(0,0,0,255)` / `rgba8(0.0,0.0,1.0,1.0)`.
+
+You can also define color using other color spaces with the functions listed in the Nannou::color [docfile](https://docs.rs/nannou/0.18.1/nannou/color/index.html#functions).
+
+```rust
+let a = hsv()
+```
+
+### Color constants
+In a lot of the Nannou code you will see you will se that color constants are used, e.g. `BLUE`, `BEIGE` etc.
+You can find a list of these color constant [here](https://docs.rs/nannou/0.18.1/nannou/color/index.html#constants).
+
+### Color contant type mismatch errors
+The colors you get from color constants are 8-bit colors, so if you want to modify them with other color you may sometimes get a compiler complaint that the types don't match.
+One example is this code:
+
+```rust
+use nannou::color::Blend;
+let a = BLUE;
+let b = lin_srgb(1.0, 0.0, 0.0);
+let c = b.overlay(a); //blending the colors using overlay blend method
+```
+
+Which would give an error similar to this:
+
+```
+error[E0308]: mismatched types
+   --> mything/src/main.rs:82:23
+    |
+82  |     let c = b.overlay(a); //blending the colors using overlay blend method
+    |               ------- ^ expected `Rgb<Linear<Srgb>, {float}>`, found `Rgb<Srgb, u8>`
+    |               |
+    |               arguments to this method are incorrect
+    |
+    = note: expected struct `nannou::prelude::rgb::Rgb<nannou::color::encoding::Linear<Srgb>, {float}>`
+               found struct `nannou::prelude::rgb::Rgb<Srgb, u8>`
+help: the return type of this call is `nannou::prelude::rgb::Rgb<Srgb, u8>` due to the type of the argument passed
+```
+
+The compiler error tells us that we have mismatched our types.
+Looking at the type signature for the `overlay` function: `fn overlay(self, other: Self) -> Self`, we see the `other` argument must have the same type as the callee.
+But in our code the type of `a` is an 8-bit color (e.g. `Rgb<Srgb, u8>`), whereas `b` has type `Rgb<Linear<Srgb>, f64>`.
+So we need to convert `a` _both_ to a decimal type _and_ to a linear color space.
+So we'll use the `into_format()` and `into_linear()` functions for this:
+
+```rust
+use nannou::color::Blend;
+// let a: Rgb<f32> = BLUE.into_format(); //converting to f32 color specifically
+let a = BLUE.into_format(); //or Rust can convert to f32 color by type inferrence
+let a = a.into_linear(); // blending has to take place in a linear color space
+let b = lin_srgb(1.0, 0.0, 0.0);
+let c = a.overlay(b); //blending the colors using overlay blend method
+```
+
+### Modify colors
+Lightening or darkening, and changing and saturation of colors is supported by the `nannou::color` API.
+But it has some Rust specific peculiarities to make it work.
+The `palette` crate has a design flow where you are encouraged to decode the color to a linear space, before you modify the colors.
+The primary reason for this is explained in this [video](https://www.youtube.com/watch?v=LKnqECcg6Gw)
+
+```rust
+use nannou::color::Shade; // import the Shade trait which is needed for the `darken`/`lighten` functions
+let c = rgb(1.0, 0.3, 0.2).into_linear(); //color manipulation is best done in a linear color
+                                          //space, which into_linear() fixes for us.
+let ca = c.darken(0.1);
+let cb = c.lighten(0.1);
+
+use nannou::color::Saturate; // needed for the `darken`/`lighten` functions
+let d: Hsv = c.into(); // Convert from RGB to HSV color space, since RGB color spaces doesn't
+                       // directly support saturation
+let da = d.saturate(0.1);
+let db = d.desaturate(0.1);
+
+let e = BLUE
+    .into_format() //Since color constant are defined as 8-bit color, we use into_format() to
+                   //convert to 32-bit float type
+    .into_linear();
+let ea = e.darken(0.1);
+let eb = e.lighten(0.1);
+```
+
+### Change the color hue
+Too rotate the hue for a color, the color type needs to implement the `Hue` trait.
+To see which colors implement this trait in Nannou you can look under the `Implementors` header in the [docfile](https://docs.rs/nannou/0.18.1/nannou/color/trait.Hue.html#implementors)
+
+```rust
+    use nannou::color::Hue; // import to be able to shift and set the hue
+    let f = Lch::new(180.0, 10.0, 50.0);
+    let g = hsl(0.5, 0.8, 0.2);
+    let h = hsv(0.5, 0.8, 0.2);
+    use nannou::color::Hwb;
+    let i = Hwb::new(0.5, 0.8, 0.2);
+
+    //We can rotate the hue for all these color spaces
+    let fa = f.shift_hue(180.0);
+    let ga = g.shift_hue(180.0);
+    let ha = h.shift_hue(180.0);
+    let ia = i.shift_hue(180.0);
+```
+
 ### Blend color modes
 A draw context can be set to a given color blending mode using `.color_blend()`, using one of the following constants as argument:
 * `BLEND_NORMAL`
