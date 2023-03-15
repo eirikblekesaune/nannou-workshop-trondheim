@@ -27,12 +27,12 @@ We will also base our explorations on the code in this repo, so no need to set u
 If you want to set up your own Nannou project later, the Nannou-guide has a [chapter](https://guide.nannou.cc/getting_started/create_a_project.html) about it.
 If you for some reason find yourself yearning more to explore Nannou on your own during the workshop, I can suggest reading and running [examples](https://guide.nannou.cc/getting_started/running_examples.html) in the `GitHub nannou` [repo](https://github.com/nannou-org/nannou).
 
-Our starting point is a basic app in the [p0-basic-app/src/main.rs] file, where I have added some (admittedly verbose) comments about the structure and the syntax, to help you understand how those element connect together.
+Our starting point is the [p0/src/main.rs] file, where I have added some (admittedly verbose) comments about the structure and the syntax, to help you understand how those element connect together.
 We will quickly go through the choreography of the program, so that you get an idea of how a basic app runs from start to finish.
 
-You can run this `p0-basic_app` using this command in the terminal:
+You can run this `p0` app using this command in the terminal:
 ```
-cargo run -p p0-basic-app
+cargo run --bin p0
 ```
 
 ### Exercises Part 0
