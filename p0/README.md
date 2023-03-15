@@ -253,7 +253,7 @@ A simple rectangle should be good.
 How do we draw rectangles in Nannou you say?
 
 <details><summary>💡 Let's see if the docs can help us...  </summary>
-⚠️  Warning: Longer aside about reading the Rust docfiles [here](./reading-rust-docfiles.md)⚠️
+⚠️  Warning: Longer aside about reading the Rust docfiles <a href=https://github.com/eirikblekesaune/nannou-workshop-trondheim/blob/main/reading-rust-docfiles.md>here</a>⚠️
 
 <br/>
 
