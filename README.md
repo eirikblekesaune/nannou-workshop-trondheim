@@ -27,6 +27,21 @@ I can propose three different trajectories that you can choose from:
   - A good alternative to the material in this workshop, as admittedly this workshop is a work-in-progress.
   - The official guide to Nannou does bring a wide overview, but it can be said that neither the community nor the documentation for Nannou is comparable to Processing.
 
+## Nannou official examples and guide
+In the [Nannou repo](https://github.com/nannou-org/nannou) there are three sections with examples that you may want to check out:
+* [Basic examples](https://github.com/nannou-org/nannou/tree/master/examples)
+  * More technically oriented examples, showing the nuts and bolts at play.
+  * Divided into thematic chapters
+  * You can run an example with e.g. `cargo run --example draw`
+* [Nature of Code examples](https://github.com/nannou-org/nannou/tree/master/nature_of_code)
+  * Many have probably heard of Daniel Shiffmans [Nature of Code](https://natureofcode.com/). The examples is this directory are the same material ported to Rust.
+  * You can run an example with e.g. `cargo run --example 4_03_particle_system_type`
+* [Generative Design](https://github.com/nannou-org/nannou/tree/master/generative_design)
+  * Code from [Generative Design](http://www.generative-gestaltung.de/2/) ported to rust.
+  * You can run an example with e.g. `cargo run --example m_1_5_02`
+
+The official Nannou guide is found [here](https://guide.nannou.cc/)
+
 ## My goal
 The main goal is to have nice time together and talking about Rust, graphics programming and everything else.
 A secondary goal is to have a look around the Nannou documentation, as that it may not that straight forward to figure out how the different APIs in the Nannou library work.
